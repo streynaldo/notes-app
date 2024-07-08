@@ -1,5 +1,6 @@
 import Utils from "../utils.js";
 import Notes from "../data/local/notes.js";
+import NotesApi from "../data/remote/notes-api.js";
 
 const home = () => {
   Notes.initCheck();
@@ -8,7 +9,9 @@ const home = () => {
   const formElement = document.querySelector("#form-note");
 
   const showAllNotes = () => {
-    const res = Notes.getAllNotes();
+    const res = NotesApi.getAllnotes();
+    console.log(res);
+    console.log("HERE");
     displayNotes(res);
   };
 
@@ -26,7 +29,7 @@ const home = () => {
     event.preventDefault();
     const title = document.querySelector("#judul").value;
     const body = document.querySelector("#catatan").value;
-    Notes.addNotes(title, body);
+    NotesApi.addNotes(title, body);
     showAllNotes();
   });
   showAllNotes();
