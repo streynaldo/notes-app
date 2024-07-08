@@ -1,3 +1,5 @@
+import NotesApi from '../data/remote/notes-api.js';
+
 class NoteItem extends HTMLElement {
   _shadowRoot = null;
   _style = null;
@@ -11,8 +13,8 @@ class NoteItem extends HTMLElement {
   constructor() {
     super();
 
-    this._shadowRoot = this.attachShadow({ mode: "open" });
-    this._style = document.createElement("style");
+    this._shadowRoot = this.attachShadow({ mode: 'open' });
+    this._style = document.createElement('style');
   }
   set noteItem(noteItem) {
     this._note = noteItem;
@@ -46,6 +48,26 @@ class NoteItem extends HTMLElement {
     line-height: 1.4;
     color: #666;
   }
+  
+  #deletebutton {
+    background-color: #FF6347;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+  
+  #deletebutton:hover {
+    background-color: #FF0000;
+    color: #fff;
+  }
+  
+  .deletebutton {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+  }
 
   @media screen and (max-width: 768px) {
     .card {
@@ -57,10 +79,33 @@ class NoteItem extends HTMLElement {
     `;
   }
   _emptyContent() {
-    this._shadowRoot.innerHTML = "";
+    this._shadowRoot.innerHTML = '';
   }
   get noteItem() {
     return this._noteItem;
+  }
+
+  connectedCallback() {
+    this.render();
+    this.shadowRoot
+      .querySelector('#deleteForm')
+      .addEventListener('submit', async () => {
+        const noteId = this.shadowRoot.querySelector(
+          "input[name='noteId']"
+        ).value;
+        await NotesApi.deleteNotes(noteId);
+      });
+  }
+
+  disconnectedCallback() {
+    this.shadowRoot
+      .querySelector('#deleteForm')
+      .removeEventListener('submit', async () => {
+        const noteId = this.shadowRoot.querySelector(
+          "input[name='noteId']"
+        ).value;
+        await NotesApi.deleteNotes(noteId);
+      });
   }
   render() {
     this._emptyContent();
@@ -72,8 +117,14 @@ class NoteItem extends HTMLElement {
               <div class="card-body">
                 ${this._note.body}
               </div>
+              <form id="deleteForm">
+                <input type="hidden" name="noteId" value="${this._note.id}">
+                <div class="deletebutton">
+                  <button type="submit" id="deletebutton">Delete</button>
+                </div>
+              </form>
             </div>
         `;
   }
 }
-customElements.define("note-item", NoteItem);
+customElements.define('note-item', NoteItem);

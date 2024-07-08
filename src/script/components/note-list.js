@@ -2,8 +2,8 @@ class NoteList extends HTMLElement {
   constructor() {
     super();
 
-    this._shadowRoot = this.attachShadow({ mode: "open" });
-    this._style = document.createElement("style");
+    this._shadowRoot = this.attachShadow({ mode: 'open' });
+    this._style = document.createElement('style');
 
     this.render();
   }
@@ -12,7 +12,7 @@ class NoteList extends HTMLElement {
     this.render();
   }
   _emptyContent() {
-    this._shadowRoot.innerHTML = "";
+    this._shadowRoot.innerHTML = '';
   }
   _updateStyle() {
     this._style.textContent = `
@@ -22,12 +22,12 @@ class NoteList extends HTMLElement {
       
       .list {
         display: grid;
-        grid-template-columns: ${"repeat(3, 1fr)"};
+        grid-template-columns: ${'repeat(3, 1fr)'};
       }
 
       @media screen and (max-width: 768px) {
         .list {
-          grid-template-columns: ${"repeat(1, 1fr)"};
+          grid-template-columns: ${'repeat(1, 1fr)'};
           margin: auto;
         }
       }
@@ -45,4 +45,4 @@ class NoteList extends HTMLElement {
     `;
   }
 }
-customElements.define("note-list", NoteList);
+customElements.define('note-list', NoteList);

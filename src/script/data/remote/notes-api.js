@@ -1,4 +1,6 @@
-const BASE_URL = "https://notes-api.dicoding.dev/v2";
+import Utils from '../../utils';
+
+const BASE_URL = 'https://notes-api.dicoding.dev/v2';
 
 class NotesApi {
   static async getAllnotes() {
@@ -6,10 +8,8 @@ class NotesApi {
       const response = await fetch(`${BASE_URL}/notes`);
       const responseJson = await response.json();
       const notes = responseJson.data;
-      console.log(notes.length);
 
       if (notes.length > 0) {
-        console.log(notes);
         return notes;
       } else {
         return [];
@@ -26,18 +26,41 @@ class NotesApi {
     };
     try {
       const response = await fetch(`${BASE_URL}/notes`, {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(data),
       });
       const responseJson = await response.json();
-      if (responseJson.message === "Catatan berhasil ditambahkan") {
-        return responseJson;
-      } else {
-        throw new Error("Gagal menambahkan catatan");
+      if (!response.ok) {
+        Utils.showErrorMessage(
+          'Gagal menambahkan catatan : ' + responseJson.message
+        );
       }
+      return responseJson;
+    } catch (error) {
+      return Promise.reject(error);
+    }
+  }
+
+  static async deleteNotes(id) {
+    console.log('MASUK');
+    const options = {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+    try {
+      const response = await fetch(`${BASE_URL}/notes/${id}`, options);
+      const responseJson = await response.json();
+      if (!response.ok) {
+        Utils.showErrorMessage(
+          'Gagal menghapus catatan : ' + responseJson.message
+        );
+      }
+      return responseJson;
     } catch (error) {
       return Promise.reject(error);
     }

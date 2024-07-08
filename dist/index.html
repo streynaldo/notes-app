@@ -2,13 +2,14 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Notes App</title>
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css"
       rel="stylesheet"
     />
     <script src="https://cdn.tailwindcss.com"></script>
+    <script defer="defer" src="bundle.js"></script>
   </head>
   <body>
     <div
@@ -35,9 +36,7 @@
         <span class="sr-only">Loading...</span>
       </div>
     </div>
-    <header>
-      <app-bar></app-bar>
-    </header>
+    <header><app-bar></app-bar></header>
     <main class="px-5 pe-5 flex flex-col md:flex-row h-screen">
       <div class="w-full mt-5 md:mt-0 md:flex justify-center items-center">
         <div
@@ -56,7 +55,6 @@
                   class="flex rounded-md shadow-sm ring-1 ring-inset ring-black focus-within:ring-2 focus-within:ring-inset focus-within:ring-white sm:max-w-md"
                 >
                   <input
-                    type="text"
                     name="judul"
                     id="judul"
                     autocomplete="judul"
@@ -92,14 +90,10 @@
       </div>
       <div class="w-full md:border-s-2 py-5" id="notes-container">
         <h2 class="text-2xl font-bold text-center">Daftar Notes</h2>
-        <div class="gap-5 mt-5">
-          <note-list></note-list>
-        </div>
+        <div class="gap-5 mt-5"><note-list></note-list></div>
       </div>
     </main>
-    <footer>
-      <footer-bar></footer-bar>
-    </footer>
+    <footer><footer-bar></footer-bar></footer>
     <script type="module" src="./src/app.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
   </body>
